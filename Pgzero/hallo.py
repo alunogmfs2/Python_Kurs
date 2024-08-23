@@ -1,4 +1,5 @@
 import pgzrun
+import time
 
 alien = Actor('alien')
 alien.pos = 100, 56
@@ -19,11 +20,17 @@ def update():
 
 def on_mouse_down(pos):
     if alien.collidepoint(pos):
-        sounds.eep.play()
-        alien.image = 'alien_hurt'
-        print('Ouch!')
-    else:
-        alien.image = 'alien'
-        print('Looser!')
+        set_alien_hurt()
+
+
+def set_alien_hurt():
+    alien.image = 'alien_hurt'
+    sounds.eep.play()
+    clock.schedule_unique(set_alien_normal, 0.2)
+
+
+def set_alien_normal():
+    alien.image = 'alien'
+    print('Looser!')
 
 pgzrun.go()
